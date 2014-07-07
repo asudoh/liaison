@@ -1,6 +1,6 @@
 define([
 	"./createRenderer",
-	"./templateBinderExtension",
+	"./TemplateInstanceExtension",
 	"./widgets/Widget",
 	"./widgets/RadioButton"
 ], 1);

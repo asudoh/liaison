@@ -4,12 +4,10 @@ define([
 	"./schedule",
 	"./ObservableArray",
 	"./ObservablePath",
-	"./BindingSourceList",
 	"./BindingTarget",
 	"./DOMBindingTarget",
-	"./computed",
-	"./templateBinder"
-], function (has, schedule, ObservableArray, ObservablePath, BindingSourceList, BindingTarget, DOMBindingTarget, computed, templateBinder) {
+	"./TemplateInstance"
+], function (has, schedule, ObservableArray, ObservablePath, BindingTarget, DOMBindingTarget, TemplateInstance) {
 	"use strict";
 
 	var EMPTY_OBJECT = {},
@@ -156,7 +154,7 @@ define([
 					var child,
 						referenceNode = this.object.nextSibling;
 					if (spliceIndex < this.instanceDataList.length) {
-						// templateBinder's instantiation context does not have firstChild, using childNodes here therefore
+						// TemplateInstance's instantiation context does not have firstChild, using childNodes here therefore
 						for (child = this.instanceDataList[spliceIndex].childNodes[0]; child; child = child.nextSibling) {
 							if (child.parentNode === this.object.parentNode) {
 								referenceNode = child;
@@ -164,7 +162,7 @@ define([
 							}
 						}
 					} else if (spliceIndex >= 1 && spliceIndex - 1 < this.instanceDataList.length) {
-						// templateBinder's instantiation context does not have lastChild, using childNodes here therefore
+						// TemplateInstance's instantiation context does not have lastChild, using childNodes here therefore
 						var childNodes = this.instanceDataList[spliceIndex - 1].childNodes;
 						for (child = childNodes[childNodes.length - 1]; child; child = child.previousSibling) {
 							if (child.parentNode === this.object.parentNode) {
@@ -455,78 +453,9 @@ define([
 	 * @param {Object} model The data model for the template.
 	 * @returns {Node~instanceData} An object that describes template instance.
 	 */
-	var instantiate = (function () {
-		function remove(bound, computed) {
-			for (var target = null; (target = bound.shift());) {
-				target.remove();
-			}
-			for (var node; (node = this.childNodes.pop());) {
-				if (node.parentNode) {
-					node.parentNode.removeChild(node);
-				}
-				node._instanceData = null;
-			}
-			if (computed) {
-				for (var c; (c = computed.shift());) {
-					c.remove();
-				}
-			}
-		}
-
-		function getInstanceData() {
-			return this.instanceData;
-		}
-
-		return function (model) {
-			var isTemplate = REGEXP_TEMPLATE_TAG.test(this.tagName)
-				|| this.tagName === "SCRIPT" && REGEXP_TEMPLATE_TYPE.test(this.getAttribute("type"));
-			if (!isTemplate) {
-				throw new TypeError("Wrong element type for instantiating template content: " + this.tagName);
-			}
-
-			var letTemplateCreateInstance = typeof this.createInstance === "function";
-			this.content.parsed = this.content.parsed || !letTemplateCreateInstance && templateBinder.parseNode(this.content);
-
-			var toBeBound = [],
-				bindings = [],
-				boundCreateBindingSourceFactory = this.createBindingSourceFactory.bind(this),
-				content = letTemplateCreateInstance ?
-					this.createInstance(model,
-						this.createBindingSourceFactory && {prepareBinding: boundCreateBindingSourceFactory},
-						undefined,
-						bindings) :
-					templateBinder.createContent(this, this.content.parsed, toBeBound);
-
-			!letTemplateCreateInstance && templateBinder.assignSources.call(this, model, toBeBound, boundCreateBindingSourceFactory);
-
-			var instanceData = {
-					model: model,
-					content: content,
-					childNodes: EMPTY_ARRAY.slice.call(content.childNodes)
-				},
-				applied = computed.apply(model);
-
-			defineProperty(instanceData, "instanceData", {
-				get: getInstanceData.bind(this),
-				configurable: true
-			});
-
-			instanceData.remove = remove.bind(instanceData,
-				letTemplateCreateInstance ?
-					bindings.map(function (binding) {
-						binding.remove = binding.close;
-						return binding;
-					}) :
-					templateBinder.bind(toBeBound),
-				!this.preventRemoveComputed && applied);
-
-			EMPTY_ARRAY.forEach.call(instanceData.childNodes, function (node) {
-				node._instanceData = instanceData;
-			});
-
-			return instanceData;
-		};
-	})();
+	function instantiate(model) {
+		return new TemplateInstance(this, model);
+	}
 
 	PossibleTemplateElementClassList.forEach(function (ElementClass) {
 		ElementClass.prototype.instantiate = instantiate;

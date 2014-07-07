@@ -23,7 +23,7 @@ define([
 	"../../delite/createRenderer!./templates/attributeTemplate.html",
 	"../../delite/createRenderer!../templates/eventTemplate.html",
 	"deliteful/StarRating",
-	"../../delite/templateBinderExtension",
+	"../../delite/TemplateInstanceExtension",
 	"../sandbox/monitor"
 ], function (
 	bdd,
