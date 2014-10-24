@@ -1,7 +1,9 @@
 env:
   global:
-    - secure: "DIXpQDgbpXgAIujhnphavBBP5jWonN4G5cn7UHkk+vioJvd/5wkJGZOZKXYqZnO2Pe50d7WMZ5RIdgtvUT6YOGVykGIo3beT/agBNMBjd4gJyJTSEf5zYl//cy6BTt6GNFY/0E05Q3f8IiuJSkxRmMEaPHnA9+O+rlB9woTfZOo="
-    - secure: "ja2aI/UwJ5mNreCoMLnAppquJhpUf1D4gfSKrTobPU/FpPUY/aUOue+jJAhWJtjjh6I/FXH+2f6HVnU8AdqEkF7HyZpAKKCxNTZvVnS3XT4fzjKv4874tCyY38Z1eN75vSo5TptrYQtVEA8G1ZGvsHPeaPvRI+1lXLkvo+ewpxQ="
+#    - secure: "DIXpQDgbpXgAIujhnphavBBP5jWonN4G5cn7UHkk+vioJvd/5wkJGZOZKXYqZnO2Pe50d7WMZ5RIdgtvUT6YOGVykGIo3beT/agBNMBjd4gJyJTSEf5zYl//cy6BTt6GNFY/0E05Q3f8IiuJSkxRmMEaPHnA9+O+rlB9woTfZOo="
+#    - secure: "ja2aI/UwJ5mNreCoMLnAppquJhpUf1D4gfSKrTobPU/FpPUY/aUOue+jJAhWJtjjh6I/FXH+2f6HVnU8AdqEkF7HyZpAKKCxNTZvVnS3XT4fzjKv4874tCyY38Z1eN75vSo5TptrYQtVEA8G1ZGvsHPeaPvRI+1lXLkvo+ewpxQ="
+    - secure: "dQZaWpQuE3YdUG3hbOGwMS9rzvYe7XKjKwuejUIxIwXSnAOwIEaFJGcOFh/qlWhpAW/Wjj+UJYwVGu7Qfk7E6pg2uSSK2yHV2VYKHYy7TjujwEOreQHO1deyZpBWP2xy5oFiHAR0fxkzJF2dEkgKVR3ZE9nCgvtb+eoriLXkVCM="
+    - secure: "FMZVPvHaJRtupmcI7pbKpKbmENveCTtUri4llSBsINPw1eyYh8HHMRWWpQw6rTOdED4zz26j1aTFcDL7HFsJLtRIuG6Oq1EtTlodimQiSbQBSW5ajH+QDG6cTSG/D9RuX1R2b9Wz7nIVOSP2hWiNoaB2qmnvsubWjH5L1csQ/3w="
 language: node_js
 node_js: "0.10"
 install:
